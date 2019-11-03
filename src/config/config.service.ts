@@ -23,13 +23,9 @@ export class ConfigService {
     npm_package_version: Joi.string()
   }).options({ stripUnknown: true });
 
-  constructor(path: string) {
+  constructor(path: string = `${process.env.NODE_ENV || 'local'}.env`) {
     dotenv.config({ path });
     this.config = this.validate(process.env);
-  }
-
-  static init(): ConfigService {
-    return new ConfigService(`${process.env.NODE_ENV || 'local'}.env`);
   }
 
   private validate(config: EnvConfig): ValidConfig {
